@@ -1,38 +1,43 @@
 # ForgePhar
 
-Herramienta web local para descomprimir, compilar y proteger plugins `.phar` de PocketMine-MP. Corre 100% en tu máquina: no sube nada a internet, no depende de servicios externos.
+Herramienta web para descomprimir, compilar y proteger plugins `.phar` de PocketMine-MP. Corre 100% en el navegador: nada se sube a un servidor, el procesamiento entero pasa en JavaScript local.
 
-## Qué hace
+Pensada para funcionar como sitio estatico en GitHub Pages, igual que [easy-phar.github.io](https://easy-phar.github.io/).
 
-- **Descomprimir**: sube un `.phar` o `.zip` y obtén su contenido extraído en un `.zip`, con el árbol de archivos.
-- **Generar .phar**: sube el `.zip` de tu plugin (debe contener `plugin.yml` en la raíz) y obtén el `.phar` compilado, listo para el servidor.
-- **Proteger .phar**: igual que generar, pero además compila con compresión GZIP nativa de `Phar` y elimina comentarios/espacios superfluos del código PHP. El resultado deja de ser texto plano legible a simple vista si alguien abre el archivo con un editor de texto o un zip genérico.
+## Que hace
 
-No implementa cifrado irreversible tipo ionCube o SourceGuardian: eso requiere una extensión de bytecode compilada en el servidor donde corre el plugin, y romper esa cadena de confianza tumbaría la ejecución en PocketMine. Lo que sí ofrece es protección real contra lectura casual del código fuente.
+- **Descomprimir**: sube un `.phar` o `.zip` y obten su contenido extraido en un `.zip`, con el arbol de archivos.
+- **Generar .phar**: sube el `.zip` de tu plugin (debe contener `plugin.yml` en la raiz) y obten el `.phar` compilado, firmado con SHA-1, listo para el servidor.
+- **Proteger .phar**: igual que generar, pero ademas comprime cada archivo con el mismo formato GZIP por-entrada que usa `Phar::compressFiles()` en PHP, y elimina comentarios/espacios superfluos del codigo. El resultado deja de ser texto plano legible si alguien abre el archivo con un editor de texto o un zip generico.
 
-## Requisitos
+No implementa cifrado irreversible tipo ionCube o SourceGuardian: eso requiere una extension de bytecode compilada en el servidor donde corre el plugin, y romper esa cadena de confianza tumbaria la ejecucion en PocketMine. Lo que si ofrece es proteccion real contra lectura casual del codigo fuente.
 
-- PHP 8.1 o superior, con las extensiones `phar` y `zip` habilitadas.
+## Como funciona
 
-## Uso
+`public/js/pharlib.js` reimplementa el formato binario `.phar` de PHP en JavaScript puro: manifest, compresion GZIP por entrada (deflate raw, igual que PHP), firma SHA-1 y verificacion de `__HALT_COMPILER();`. Se valido byte a byte contra la extension `Phar` real de PHP: los archivos que genera ForgePhar en el navegador se leen y ejecutan sin diferencias en un servidor PHP/PocketMine real.
+
+Usa dos librerias vendorizadas en `public/vendor/`:
+- **pako** para deflate/inflate raw (compresion GZIP por entrada).
+- **JSZip** para leer y escribir `.zip`.
+
+## Uso local
+
+Al ser un sitio estatico, cualquier servidor HTTP simple sirve:
 
 ```bash
-php -d phar.readonly=0 -S localhost:8090 -t public
+python -m http.server 8080 -d public
 ```
 
-Abre `http://localhost:8090` en tu navegador.
-
-`phar.readonly=0` es necesario porque, por defecto, PHP no permite crear ni modificar archivos `.phar` desde código.
+Abre `http://localhost:8080`. `crypto.subtle` (usado para firmar el `.phar`) requiere un contexto seguro: `https://` o `localhost` funcionan, abrir el `index.html` directamente con `file://` no.
 
 ## Estructura
 
 ```
-lib/PharTools.php   Lógica de extracción, compilación y compresión (Phar, ZipArchive)
-public/index.html   Interfaz
-public/app.js        Lógica de frontend (subida de archivos, llamadas a la API)
-public/api.php       Endpoints: extract, build, protect, download
-uploads/              Archivos temporales de subida (se limpian automáticamente tras 1 hora)
-output/               Archivos generados listos para descargar (se limpian automáticamente tras 1 hora)
+public/index.html      Interfaz
+public/js/main.js       Logica de UI (subida de archivos, llamadas a pharlib)
+public/js/pharlib.js    Lectura/escritura del formato .phar, sin dependencias
+public/vendor/          pako y JSZip vendorizados
+public/style.css        Estilos
 ```
 
 ## Licencia

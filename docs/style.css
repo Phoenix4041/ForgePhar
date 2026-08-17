@@ -29,21 +29,27 @@ header {
     text-align: center;
 }
 
-.help-btn {
+.header-actions {
     position: absolute;
     top: 24px;
     right: 24px;
+    display: flex;
+    gap: 8px;
+}
+
+.header-btn {
     padding: 8px 16px;
     border-radius: 999px;
     border: 1px solid var(--border);
     background: var(--panel);
     color: var(--text);
     font-size: 0.85rem;
+    text-decoration: none;
     cursor: pointer;
     transition: all 0.15s ease;
 }
 
-.help-btn:hover {
+.header-btn:hover {
     border-color: var(--accent);
     color: #fff;
 }

@@ -2,8 +2,6 @@
 
 Herramienta web para descomprimir, compilar y proteger plugins `.phar` de PocketMine-MP. Corre 100% en el navegador: nada se sube a un servidor, el procesamiento entero pasa en JavaScript local.
 
-Pensada para funcionar como sitio estatico en GitHub Pages, igual que [easy-phar.github.io](https://easy-phar.github.io/).
-
 ## Que hace
 
 - **Descomprimir**: sube un `.phar` o `.zip` y obten su contenido extraido en un `.zip`, con el arbol de archivos.

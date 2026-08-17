@@ -14,9 +14,9 @@ No implementa cifrado irreversible tipo ionCube o SourceGuardian: eso requiere u
 
 ## Como funciona
 
-`public/js/pharlib.js` reimplementa el formato binario `.phar` de PHP en JavaScript puro: manifest, compresion GZIP por entrada (deflate raw, igual que PHP), firma SHA-1 y verificacion de `__HALT_COMPILER();`. Se valido byte a byte contra la extension `Phar` real de PHP: los archivos que genera ForgePhar en el navegador se leen y ejecutan sin diferencias en un servidor PHP/PocketMine real.
+`docs/js/pharlib.js` reimplementa el formato binario `.phar` de PHP en JavaScript puro: manifest, compresion GZIP por entrada (deflate raw, igual que PHP), firma SHA-1 y verificacion de `__HALT_COMPILER();`. Se valido byte a byte contra la extension `Phar` real de PHP: los archivos que genera ForgePhar en el navegador se leen y ejecutan sin diferencias en un servidor PHP/PocketMine real.
 
-Usa dos librerias vendorizadas en `public/vendor/`:
+Usa dos librerias vendorizadas en `docs/vendor/`:
 - **pako** para deflate/inflate raw (compresion GZIP por entrada).
 - **JSZip** para leer y escribir `.zip`.
 
@@ -33,11 +33,11 @@ Abre `http://localhost:8080`. `crypto.subtle` (usado para firmar el `.phar`) req
 ## Estructura
 
 ```
-public/index.html      Interfaz
-public/js/main.js       Logica de UI (subida de archivos, llamadas a pharlib)
-public/js/pharlib.js    Lectura/escritura del formato .phar, sin dependencias
-public/vendor/          pako y JSZip vendorizados
-public/style.css        Estilos
+docs/index.html      Interfaz
+docs/js/main.js       Logica de UI (subida de archivos, llamadas a pharlib)
+docs/js/pharlib.js    Lectura/escritura del formato .phar, sin dependencias
+docs/vendor/          pako y JSZip vendorizados
+docs/style.css        Estilos
 ```
 
 ## Licencia

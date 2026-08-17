@@ -4,11 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ForgePhar</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <header>
+    <button class="help-btn" id="help-btn" type="button" aria-haspopup="dialog" aria-controls="help-modal">Ayuda</button>
     <h1>ForgePhar</h1>
     <p>Descomprime, compila y protege plugins <code>.phar</code> de PocketMine-MP</p>
 </header>
@@ -96,6 +98,38 @@
 </main>
 
 <footer>ForgePhar corre 100% en tu navegador — ningun archivo sale de tu computadora.</footer>
+
+<div class="modal-overlay" id="help-modal" role="dialog" aria-modal="true" aria-labelledby="help-title">
+    <div class="modal">
+        <div class="modal-header">
+            <h2 id="help-title">Como funciona ForgePhar</h2>
+            <button class="modal-close" id="help-close" type="button" aria-label="Cerrar">&times;</button>
+        </div>
+        <div class="modal-body">
+            <section class="help-section">
+                <h3>1. Descomprimir</h3>
+                <p>Sube un archivo <code>.phar</code> o <code>.zip</code>. ForgePhar lo abre en tu navegador, lista todos los archivos que contiene y te entrega un <code>.zip</code> normal con el codigo fuente, listo para editar en tu editor de siempre.</p>
+            </section>
+            <section class="help-section">
+                <h3>2. Generar .phar</h3>
+                <p>Sube el <code>.zip</code> de la carpeta de tu plugin (debe tener <code>plugin.yml</code> en la raiz, igual que cualquier plugin de PocketMine-MP). ForgePhar arma el <code>.phar</code> con el mismo formato binario que usa PHP: manifest, checksum por archivo y firma. El resultado se descarga directo, listo para subir a tu servidor.</p>
+            </section>
+            <section class="help-section">
+                <h3>3. Proteger .phar</h3>
+                <p>Hace lo mismo que "Generar .phar", pero ademas:</p>
+                <ul>
+                    <li>Comprime cada archivo con GZIP (el mismo metodo que usa <code>Phar::compressFiles()</code> en PHP).</li>
+                    <li>Elimina comentarios y espacios innecesarios del codigo PHP.</li>
+                </ul>
+                <p>El resultado deja de ser texto plano legible: si alguien abre el <code>.phar</code> con un editor de texto o un zip generico, solo ve binario. Esto <strong>no es cifrado irreversible</strong> tipo ionCube — eso requiere una extension compilada en el servidor destino y rompe la ejecucion en PocketMine si se intenta falsear. Lo que si obtienes es proteccion real contra la lectura casual de tu codigo.</p>
+            </section>
+            <section class="help-section">
+                <h3>Privacidad</h3>
+                <p>Nada se sube a ningun servidor. Todo el procesamiento (lectura, compresion, firma) pasa dentro de tu navegador con JavaScript. Puedes desconectarte de internet despues de cargar la pagina y todo sigue funcionando igual.</p>
+            </section>
+        </div>
+    </div>
+</div>
 
 <script src="vendor/pako.min.js"></script>
 <script src="vendor/jszip.min.js"></script>

@@ -4,6 +4,26 @@ pharlib.setSha1(async (data) => {
     return new Uint8Array(digest);
 });
 
+const helpModal = document.getElementById('help-modal');
+const helpBtn = document.getElementById('help-btn');
+const helpClose = document.getElementById('help-close');
+
+function openHelp() {
+    helpModal.classList.add('show');
+}
+function closeHelp() {
+    helpModal.classList.remove('show');
+}
+
+helpBtn.addEventListener('click', openHelp);
+helpClose.addEventListener('click', closeHelp);
+helpModal.addEventListener('click', e => {
+    if (e.target === helpModal) closeHelp();
+});
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && helpModal.classList.contains('show')) closeHelp();
+});
+
 document.querySelectorAll('.tab').forEach(tab => {
     tab.addEventListener('click', () => {
         document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));

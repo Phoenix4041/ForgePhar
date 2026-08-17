@@ -24,8 +24,28 @@ body {
 }
 
 header {
+    position: relative;
     padding: 32px 24px 12px;
     text-align: center;
+}
+
+.help-btn {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    padding: 8px 16px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--panel);
+    color: var(--text);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.help-btn:hover {
+    border-color: var(--accent);
+    color: #fff;
 }
 
 header h1 {
@@ -239,4 +259,99 @@ code {
     padding: 2px 6px;
     border-radius: 4px;
     font-size: 0.85em;
+}
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(4, 5, 8, 0.7);
+    backdrop-filter: blur(2px);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 100;
+}
+
+.modal-overlay.show {
+    display: flex;
+}
+
+.modal {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    max-width: 620px;
+    width: 100%;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border);
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 1.15rem;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 4px 8px;
+}
+
+.modal-close:hover {
+    color: var(--text);
+}
+
+.modal-body {
+    padding: 20px 24px 24px;
+    overflow-y: auto;
+}
+
+.help-section {
+    margin-bottom: 20px;
+}
+
+.help-section:last-child {
+    margin-bottom: 0;
+}
+
+.help-section h3 {
+    margin: 0 0 8px;
+    font-size: 1rem;
+    color: var(--accent2);
+}
+
+.help-section p {
+    margin: 0 0 8px;
+    font-size: 0.9rem;
+    line-height: 1.55;
+    color: var(--text);
+}
+
+.help-section p:last-child {
+    margin-bottom: 0;
+}
+
+.help-section ul {
+    margin: 0 0 8px;
+    padding-left: 20px;
+    font-size: 0.9rem;
+    line-height: 1.55;
+}
+
+.help-section li {
+    margin-bottom: 4px;
 }

@@ -1,0 +1,4 @@
+uploads/*
+output/*
+!uploads/.gitkeep
+!output/.gitkeep

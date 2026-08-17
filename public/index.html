@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ForgePhar</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1>ForgePhar</h1>
+    <p>Descomprime, compila y protege plugins <code>.phar</code> de PocketMine-MP</p>
+</header>
+
+<main>
+    <div class="tabs">
+        <div class="tab active" data-tab="extract">Descomprimir</div>
+        <div class="tab" data-tab="build">Generar .phar</div>
+        <div class="tab" data-tab="protect">Proteger .phar</div>
+    </div>
+
+    <section class="panel active" id="panel-extract">
+        <h2>Descomprimir .phar / .zip</h2>
+        <p class="desc">Sube un archivo <code>.phar</code> o <code>.zip</code> y te devuelvo su contenido descomprimido, listo para editar.</p>
+
+        <div class="dropzone" data-target="extract-file">
+            <div class="main-text">Arrastra tu archivo aquí o haz clic</div>
+            <div class="sub-text">.phar o .zip</div>
+        </div>
+        <input type="file" id="extract-file" accept=".phar,.zip">
+
+        <button class="primary" id="extract-btn" disabled>Descomprimir</button>
+
+        <div class="result" id="extract-result"></div>
+    </section>
+
+    <section class="panel" id="panel-build">
+        <h2>Generar .phar</h2>
+        <p class="desc">Sube un <code>.zip</code> con la carpeta de tu plugin (debe contener <code>plugin.yml</code>) y te devuelvo el <code>.phar</code> compilado.</p>
+
+        <div class="dropzone" data-target="build-file">
+            <div class="main-text">Arrastra el .zip de tu plugin aquí</div>
+            <div class="sub-text">Debe contener plugin.yml en la raíz</div>
+        </div>
+        <input type="file" id="build-file" accept=".zip">
+
+        <div class="fields">
+            <div class="field">
+                <label>Nombre del plugin (opcional, se detecta de plugin.yml)</label>
+                <input type="text" id="build-name" placeholder="MiPlugin">
+            </div>
+            <div class="field">
+                <label>Versión</label>
+                <input type="text" id="build-version" value="1.0.0">
+            </div>
+        </div>
+
+        <button class="primary" id="build-btn" disabled>Compilar .phar</button>
+
+        <div class="result" id="build-result"></div>
+    </section>
+
+    <section class="panel" id="panel-protect">
+        <h2>Proteger .phar</h2>
+        <p class="desc">Compila tu plugin en un <code>.phar</code> con compresión binaria + limpieza de comentarios, para que el código fuente no quede legible a simple vista si alguien lo extrae.</p>
+
+        <div class="dropzone" data-target="protect-file">
+            <div class="main-text">Arrastra el .zip de tu plugin aquí</div>
+            <div class="sub-text">Debe contener plugin.yml en la raíz</div>
+        </div>
+        <input type="file" id="protect-file" accept=".zip">
+
+        <div class="fields">
+            <div class="field">
+                <label>Nombre del plugin (opcional)</label>
+                <input type="text" id="protect-name" placeholder="MiPlugin">
+            </div>
+            <div class="field">
+                <label>Versión</label>
+                <input type="text" id="protect-version" value="1.0.0">
+            </div>
+        </div>
+
+        <div class="check-row">
+            <div>
+                <div class="label">Protección aplicada: compresión GZIP + eliminación de comentarios</div>
+                <div class="hint">Honestidad primero: esto NO es cifrado irreversible tipo ionCube (eso requiere una extensión compilada en el servidor destino, y rompería la ejecución en PocketMine si se falsifica). Lo que sí hace: el .phar deja de ser texto plano legible, y cualquier extracción casual (editor de texto, zip genérico) muestra binario/basura en vez de tu código fuente ordenado.</div>
+            </div>
+        </div>
+
+        <button class="primary" id="protect-btn" disabled>Compilar y proteger</button>
+
+        <div class="result" id="protect-result"></div>
+    </section>
+</main>
+
+<footer>ForgePhar corre 100% local — nada se sube a internet.</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
